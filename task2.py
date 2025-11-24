@@ -1,21 +1,22 @@
 import streamlit as st
 import pandas as pd
-from numpy.random import default_rng as rng
 
-st.header("Task 2: 데이터 표시하기")
+st.header("Task 2: 데이터프레임 & 지표 표시")
+
+# CSV 불러오기
+df = pd.read_csv("penguins.csv")
+
+# 데이터프레임 표시
 st.subheader("데이터프레임")
-df = pd.DataFrame(
-    rng(0).standard_normal((50,20)), columns=("col %d" % i for i in range(20))
-)
-
 st.dataframe(df)
 
+# 지표 정보
 st.subheader("지표 정보")
 
 a, b = st.columns(2)
 c, d = st.columns(2)
 
-a.metric("온도", "-1 °C", -2, border=True)
-b.metric("바람", "2 m/s", 8, border=True)
-c.metric("습도", "47%",  -9, border=True)
-d.metric("강수량", "0 mm", 0, border=True)
+a.metric("평균 체중 (g)", f"{df['body_mass_g'].mean():.1f} g")
+b.metric("평균 부리길이 (mm)", f"{df['bill_length_mm'].mean():.1f} mm")
+c.metric("평균 부리두께 (mm)", f"{df['bill_depth_mm'].mean():.1f} mm")
+d.metric("전체 개체 수", len(df))
